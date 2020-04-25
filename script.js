@@ -34,6 +34,7 @@ function displayWord() {
   if (innerWord === selectedWord) {
     finalMessage.innerText = 'Congratulations! You won! 😃';
     popup.style.display = 'flex';
+    window.removeEventListener('keydown', onKeyDown);
   }
 }
 
@@ -60,6 +61,7 @@ function updateWrongLettersEl() {
   if (wrongLetters.length === figureParts.length) {
     finalMessage.innerText = 'Unfortunately you lost. 😕';
     popup.style.display = 'flex';
+    window.removeEventListener('keydown', onKeyDown);
   }
 }
 
@@ -73,7 +75,9 @@ function showNotification() {
 }
 
 // Keydown letter press
-window.addEventListener('keydown', (e) => {
+window.addEventListener('keydown', onKeyDown);
+
+function onKeyDown(e) {
   //   console.log(e.keyCode);
   if (e.keyCode >= 65 && e.keyCode <= 90) {
     const letter = e.key;
@@ -96,10 +100,12 @@ window.addEventListener('keydown', (e) => {
       }
     }
   }
-});
+}
 
 // Restart game and play again
 playAgainBtn.addEventListener('click', () => {
+  window.addEventListener('keydown', onKeyDown);
+
   // Empty arrays
   correctLetters.splice(0);
   wrongLetters.splice(0);
